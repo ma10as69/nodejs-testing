@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dark"
+    
+</head>
+<body>
+    
+    <h1>burgerr</h1>
+    <p> <%= innhold %></p>
+    <a href="login.ejs">Login</a>
+
+    <ul>
+        <% data.forEach(function(d) { %>
+          <li>
+            <strong><%= d.member_id %></strong> 
+            <strong><%= d.fname %></strong> 
+            <strong><%= d.status %></strong> 
+          </li>
+        <% }); %>
+    </ul>
+
+</body>
+</html> 
