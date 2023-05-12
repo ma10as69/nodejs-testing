@@ -60,6 +60,9 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
  })
 
 
+ //dark mode
+
+
  app.get('/about*', function (req, res) {
     res.sendfile(__dirname + "/" + "about.html");
  })
@@ -82,14 +85,15 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
 
  app.post('/login', function (req, res) {
 
+   var con = connect();
+
     // perform the MySQL query to check if the user exists
    var sql = 'SELECT * FROM member WHERE email = ? AND password = ?';
-   
    
    // henter email og passord fra skjema på login
    var email = req.body.email;
    var password = req.body.password;
-   var con = connect();
+
 
    con.query(sql, [email, password], (error, results) => {
        if (error) {
@@ -99,20 +103,33 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
            session.userid=req.body.email; // set session userid til email
             res.redirect('/');
        } else {
+         console.log("wrong username/password")
            res.redirect('/login?error=invalid'); // redirect med error beskjed i GET
        }
    });
 });
 
+app.get('/signup', function (req, res) {
+   res.render('signup.ejs', {     
+   });
+
+})
+
 //signup
 app.post('/signup', (req, res) => {
 
    var con = connect();
+   
    var email = req.body.email;
    var password = req.body.password;
+   var fname = req.body.fname;
+   var iname = req.body.iname;
+   var gender = req.body.gender;
+   var age = req.body.age;
 
-   var sql = `INSERT INTO member (email, password) VALUES (?, ?)`;
-   var values = [email, password];
+
+   var sql = `INSERT INTO member (email, password, fname, iname, gender, age) VALUES (?, ?, ?, ?, ?, ?)`;
+   var values = [email, password, fname, iname, gender, age];
 
    con.query(sql, values, (err, result) => {
        if (err) {
@@ -175,4 +192,9 @@ var server = app.listen(8081, function () {
    
    console.log("Example app listening at http://%s:%s", host, port)
 })
+
+
+
+
+
 
