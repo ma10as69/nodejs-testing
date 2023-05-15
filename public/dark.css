@@ -1,24 +1,24 @@
 /* Base styles */
 body {
-    background-color: #333;
-    color: #fff;
+    background-color: rgb(32, 32, 32);
+    color: rgb(230, 230, 230);
   }
   
   /* Header styles */
   header {
     background-color: #222;
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
   
   /* Link styles */
   a {
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
   
   /* Button styles */
   button {
-    background-color: #555;
-    color: #fff;
+    background-color: rgb(31, 31, 31);
+    color: rgb(230, 230, 230);
   }
   
 
@@ -31,5 +31,5 @@ body {
   input[type="password"],
   textarea {
     background-color: #444;
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
