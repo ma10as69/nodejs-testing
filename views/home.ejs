@@ -4,21 +4,31 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="../public/switchThemes.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="light.css">
+  <link id="active-stylesheet" href="" rel="stylesheet" type="text/css"/>
   <title>Document</title>
 </head>
 <body>
  <h1>Mathias Fitness</h1>
 
+
+ <div class="container_buttons1">
 <button><a href="/signup">Signup</a></button>
-<button><a href="/login">Login</a></button>
-<button><a href="/">Home</a></button><br><br><br>
+<button><a href="/login">Login</a></button></div>
 
-<label>Themes:</label>
- <div class="switch-buttons">
-    <button class="switch-buttons__light button" data-stylesheet="../public/light.css">Go Light</button>
-    <button class="switch-buttons__dark button" data-stylesheet="../public/dark.css">Go Dark</button>
-</div>
+<div class="container_home">
+<button><a href="/">Home</a></button></div>
 
+<div class="container_themes_and_clear_storage">
+<label for="switch-options">Themes:</label>
+<select id="switch-options">
+  <option value="switch-options__light" data-stylesheet="light.css">Light</option>
+  <option value="switch-options__dark" data-stylesheet="dark.css">Dark</option>
+</select>
+<button id="clear-storage">Clear Storage</button></div><br><br>
+
+
+<script src="script.js"></script>
 </body>
 </html>

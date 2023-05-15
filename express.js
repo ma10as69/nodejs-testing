@@ -72,8 +72,15 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
  app.get('/login', function (req, res) {
    res.render('login.ejs', {     
    });
-
 })
+
+
+   app.get('/home', function (req, res) {
+      res.render('home.ejs', {     
+   
+      });
+   
+   })
 
  app.post('/login', function (req, res) {
 
@@ -118,8 +125,6 @@ app.post('/signup', (req, res) => {
    var iname = req.body.iname;
    var gender = req.body.gender;
    var age = req.body.age;
-
-   console.log(gender)
 
    var sql = `INSERT INTO member (email, password, fname, iname, gender, age) VALUES (?, ?, ?, ?, ?, ?)`;
    var values = [email, password, fname, iname, gender, age];

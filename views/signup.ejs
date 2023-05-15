@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link id="active-stylesheet" href="" rel="stylesheet" type="text/css"/>
   <title>Document</title>
 </head>
 <body>
@@ -27,28 +29,40 @@
            id="iname"
            placeholder="Enter Last Name">
 </div> <br>
-           <label for="gender">Gender:</label>
-           <select id="gender" name="gender">
-             <option value="Male">Male</option>
-             <option value="Female">Female</option>
-             <option value="Other">Other</option>
-           </select>
-</div> <br><br>
-<div class="input-field">
-    <input type="number" 
-           name="age"
-           id="age"
-           placeholder="Enter Age">
-</div> <br>
   <div class="input-field">
       <input type="password"
       name="password"
       id="password"
       placeholder="Enter Password">
-    </div> <br>  
-  <input type="submit" value="Signup">
-  <input type="submit" value="Login">
-  <button><a href="/">Home</a></button>
+</div> <br>
+  <div class="input-field">
+    <input type="number" 
+      name="age"
+      id="age"
+      placeholder="Enter Age">
+    </div> <br>
+
+   <div class="container_gender">
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender"></div>
+
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+</div> <br>
+
+<div class="container_buttons1">
+<button id="signupButton"><a>Signup</a></button>
+<button><a href="/login">Login</a></button></div>
+
+<div class="container_home">
+  <button><a href="/">Home</a></button></div>
+
 </form> <br>
+<div class="container_themes_and_clear_storage">
+  <button id="clear-storage">Clear Storage</button></div>
+
+<script src="script.js"></script>
 </body>
 </html>

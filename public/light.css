@@ -1,24 +1,24 @@
 /* Base styles */
 body {
     background-color: #ffffff;
-    color: #fff;
+    color: #000000;
   }
   
   /* Header styles */
   header {
     background-color: #ffffff;
-    color: #fff;
+    color: #000000;
   }
   
   /* Link styles */
   a {
-    color: #fff;
+    color: #000000;
   }
   
   /* Button styles */
   button {
     background-color: #ffffff;
-    color: #fff;
+    color: #000000;
   }
   
   /* Form styles */
@@ -26,5 +26,5 @@ body {
   input[type="email"],
   textarea {
     background-color: #ffffff;
-    color: #fff;
+    color: #000000;
   }
