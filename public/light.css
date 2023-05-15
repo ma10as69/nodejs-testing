@@ -1,0 +1,30 @@
+/* Base styles */
+body {
+    background-color: #ffffff;
+    color: #fff;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #ffffff;
+    color: #fff;
+  }
+  
+  /* Link styles */
+  a {
+    color: #fff;
+  }
+  
+  /* Button styles */
+  button {
+    background-color: #ffffff;
+    color: #fff;
+  }
+  
+  /* Form styles */
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    background-color: #ffffff;
+    color: #fff;
+  }

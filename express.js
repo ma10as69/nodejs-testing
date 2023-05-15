@@ -59,18 +59,6 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
    });
  })
 
-
- //dark mode
-
-
- app.get('/about*', function (req, res) {
-    res.sendfile(__dirname + "/" + "about.html");
- })
-
- app.get('/login*', function (req, res) {
-   res.sendfile(__dirname + "/views/" + "login.ejs");
-})
-
  app.get('/process_get', function (req, res) {
     // Prepare output in JSON format
     response = {
@@ -81,7 +69,11 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
     res.end(JSON.stringify(response));
  })
 
+ app.get('/login', function (req, res) {
+   res.render('login.ejs', {     
+   });
 
+})
 
  app.post('/login', function (req, res) {
 
@@ -127,6 +119,7 @@ app.post('/signup', (req, res) => {
    var gender = req.body.gender;
    var age = req.body.age;
 
+   console.log(gender)
 
    var sql = `INSERT INTO member (email, password, fname, iname, gender, age) VALUES (?, ?, ?, ?, ?, ?)`;
    var values = [email, password, fname, iname, gender, age];
@@ -143,6 +136,14 @@ app.post('/signup', (req, res) => {
 
 });
 
+app.get('/page1', function (req, res) {
+   res.render('page1.ejs', {     
+   });
+
+})
+
+
+
 
 // a variable to save a session
 var session;
@@ -154,13 +155,13 @@ app.get('/', function (req, res) {
  
      } 
      else {
-        res.render('login.ejs', { });
+        res.render('home.ejs', { });
      }
 })
  
 app.get('/logout', function (req, res) {
     req.session.destroy();
-    res.render('login.ejs', {     
+    res.render('home.ejs', {     
     });
  
 })

@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../public/switchThemes.js"></script>
     <title>Document</title>  
 
 </head>
 <body>
     
-    <h1>burgerr</h1>
+  <div class="switch-buttons">
+    <button class="switch-buttons__light button" data-stylesheet="../public/light">Go Light</button>
+    <button class="switch-buttons__dark button" data-stylesheet="../public/dark.css">Go Dark</button>
+</div>
+
+
     <p> <%= innhold %></p>
     <a href="login.ejs">Login</a>
     <a href="signup.ejs">Signup</a>
@@ -25,5 +31,4 @@
 
 
 </body>
-
 </html> 
