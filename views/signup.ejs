@@ -12,7 +12,7 @@
  <h1>SIGNUP</h1>
 <form action="/signup" method="post">
   <div class="input-field">
-      <input type="text" 
+      <input type="email" 
              name="email"
              id="email"
              placeholder="Enter Email">
@@ -44,23 +44,30 @@
 
    <div class="container_gender">
     <label for="gender">Gender:</label>
-    <select id="gender" name="gender"></div>
+    <select id="gender" name="gender">
 
       <option value="Male">Male</option>
       <option value="Female">Female</option>
       <option value="Other">Other</option>
-    </select>
-</div> <br>
+    </select></div><br>
 
 <div class="container_buttons1">
 <button id="signupButton"><a>Signup</a></button>
 <button><a href="/login">Login</a></button></div>
+</form>
+
+
 
 <div class="container_home">
-  <button><a href="/">Home</a></button></div>
+  <button><a href="/home">Home</a></button></div><br>
 
-</form> <br>
+
 <div class="container_themes_and_clear_storage">
+  <label for="switch-options">THEMES</label>
+  <select id="switch-options">
+    <option value="switch-options__light" data-stylesheet="light.css">Light</option>
+    <option value="switch-options__dark" data-stylesheet="dark.css">Dark</option>
+  </select>
   <button id="clear-storage">Clear Storage</button></div>
 
 <script src="script.js"></script>

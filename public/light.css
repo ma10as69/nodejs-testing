@@ -1,12 +1,12 @@
 /* Base styles */
 body {
-    background-color: #ffffff;
+    background-color: #eee;
     color: #000000;
   }
   
   /* Header styles */
   header {
-    background-color: #ffffff;
+    background-color: #ccc;
     color: #000000;
   }
   
@@ -24,7 +24,20 @@ body {
   /* Form styles */
   input[type="text"],
   input[type="email"],
+  input[type="submit"],
+  input[type="number"],
+  input[type="password"],
   textarea {
-    background-color: #ffffff;
+    background-color: #eee;
     color: #000000;
   }
+
+  .container_home a:hover,
+  .container_logout a:hover,
+  .container_delete a:hover,
+  .container_buttons1 a:hover,
+  .container_delete-account :hover,
+  #clear-storage:hover {
+    color: #aaa;
+  }
+  

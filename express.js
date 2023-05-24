@@ -26,7 +26,7 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
      cookie: { maxAge: oneDay },
      resave: false 
  }));
-  
+
 
 
 // links
@@ -38,8 +38,6 @@ app.get('/test', function (req, res) {//azure
 var con=mysql.createConnection({host:"mathias-mysql-server.mysql.database.azure.com",
 user:"mathias", password:"NoRussian123", database:"gym_management", port:3306,
 ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
-
-
 
    con.connect(function(err) {
       if (err) throw err;
@@ -59,6 +57,8 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
    });
  })
 
+
+
  app.get('/process_get', function (req, res) {
     // Prepare output in JSON format
     response = {
@@ -69,20 +69,23 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
     res.end(JSON.stringify(response));
  })
 
- app.get('/login', function (req, res) {
+
+
+
+
+
+
+
+
+
+app.get('/login', function (req, res) {
    res.render('login.ejs', {     
    });
 })
 
 
-   app.get('/home', function (req, res) {
-      res.render('home.ejs', {     
-   
-      });
-   
-   })
-
- app.post('/login', function (req, res) {
+// login
+app.post('/login', function (req, res) {
 
    var con = connect();
 
@@ -108,13 +111,16 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
    });
 });
 
+
+
 app.get('/signup', function (req, res) {
    res.render('signup.ejs', {     
    });
 
 })
 
-//signup
+
+// signup
 app.post('/signup', (req, res) => {
 
    var con = connect();
@@ -141,6 +147,98 @@ app.post('/signup', (req, res) => {
 
 });
 
+
+// Get delete
+app.get('/delete', function (req, res) {
+   var con = connect();
+ 
+   // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
+   if (req.session.userid) {
+     var email = req.session.userid;
+ 
+     // Render a page with a form to enter the password
+     res.render('delete-account', { email: email });
+   } else {
+     res.redirect('/login'); // Redirect to the login page if the user is not signed in
+   }
+ });
+ 
+
+// Post delete
+ app.post('/delete', function (req, res) {
+   var con = connect();
+ 
+   // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
+   if (req.session.userid) {
+     var email = req.session.userid;
+     var password = req.body.password; // Assuming the password is sent in the request body
+ 
+     // Perform the MySQL query to fetch the user's password from the database
+     var selectSql = 'SELECT password FROM member WHERE email = ?';
+ 
+     con.query(selectSql, [email], (error, results) => {
+       if (error) {
+         console.log(error);
+         res.status(500).send('Internal Server Error');
+       } else {
+         if (results.length > 0) {
+           var storedPassword = results[0].password; // Assuming the password is stored in the 'password' column
+ 
+           // Compare the entered password with the stored password
+           if (password === storedPassword) {
+             // Perform the MySQL query to delete the user account
+             var deleteSql = 'DELETE FROM member WHERE email = ?';
+ 
+             con.query(deleteSql, [email], (error, results) => {
+               if (error) {
+                 console.log(error);
+                 res.status(500).send('Internal Server Error');
+               } else {
+                 // Account deletion successful
+                 req.session.destroy(function (error) {
+                   if (error) {
+                     console.log(error);
+                   }
+                   res.redirect('/home');
+                 });
+               }
+             });
+           } else {
+             // Incorrect password
+             res.status(403).send('Incorrect password');
+           }
+         } else {
+           // User not found
+           res.status(404).send('User not found');
+         }
+       }
+     });
+   } else {
+     res.redirect('/login'); // Redirect to the login page if the user is not signed in
+   }
+ });
+ 
+
+
+// logout
+app.get('/logout', function (req, res) {
+   req.session.destroy(function (error) {
+     if (error) {
+       console.log(error);
+     }
+     res.redirect('/home');
+   });
+ });
+
+
+
+
+
+
+
+
+
+
 app.get('/page1', function (req, res) {
    res.render('page1.ejs', {     
    });
@@ -149,10 +247,17 @@ app.get('/page1', function (req, res) {
 
 
 
+app.get('/home', function (req, res) {
+   res.render('home.ejs', {     
+   
+   });
+   
+})
 
-// a variable to save a session
+
+
+// save session
 var session;
- 
 app.get('/', function (req, res) {
      session=req.session;
      if(session.userid){ // hvis allerede logget inn
@@ -163,14 +268,9 @@ app.get('/', function (req, res) {
         res.render('home.ejs', { });
      }
 })
- 
-app.get('/logout', function (req, res) {
-    req.session.destroy();
-    res.render('home.ejs', {     
-    });
- 
-})
- 
+
+
+
 app.get('/continue', function (req, res) {
    req.session.destroy();
    res.render('page1.ejs', {     
@@ -179,19 +279,15 @@ app.get('/continue', function (req, res) {
 
 })
 
-app.post('/user',(req,res) => {
-    var con = connect();
-    if(req.body.email == email && req.body.password == password){
-        session=req.session;
-        session.userid=req.body.email;
-        console.log(req.session)
-        res.send(`hei <a href=\'/logout'>click to logout</a> <br> <a href=\'/continue'>continue</a>`);
-    }
-    else{
-        res.send('Invalid email or password');
-    }
-})
-  
+
+
+
+
+
+
+
+
+
 var server = app.listen(8081, function () {
    var host = server.address().address
    var port = server.address().port

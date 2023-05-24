@@ -1,6 +1,6 @@
 /* Base styles */
 body {
-    background-color: #333;
+    background-color: #222;
     color: #fff;
   }
   
@@ -17,7 +17,7 @@ body {
   
   /* Button styles */
   button {
-    background-color: #555;
+    background-color: #444;
     color: #fff;
   }
   
@@ -33,3 +33,13 @@ body {
     background-color: #444;
     color: #fff;
   }
+
+  .container_home a:hover,
+  .container_logout a:hover,
+  .container_delete a:hover,
+  .container_buttons1 a:hover,
+  .container_delete-account :hover,
+  #clear-storage:hover {
+    color: #000000;
+  }
+  

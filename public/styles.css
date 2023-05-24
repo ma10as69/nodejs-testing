@@ -19,8 +19,16 @@ body {
     align-items: center;
     justify-content: center;
     align-self: center;
-
 }
+
+.container_delete-account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 10px;
+}
+
 .container_gender {
     display: flex;
     align-items: center;
@@ -58,6 +66,16 @@ body {
   }
   
 
+.container_delete {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    margin-top: 70px;
+  }
+
 
 button {
     margin-bottom: 20px;
@@ -89,4 +107,13 @@ select {
   #clear-storage {
     margin-top: 20px;
   }
+
+
+
+
   
+
+  
+
+  
+
