@@ -1,22 +1,24 @@
 /* Base styles */
 body {
-    background-color: #222;
+    background-color: #333;
     color: #fff;
   }
   
   /* Header styles */
   header {
     background-color: #222;
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
   
   /* Link styles */
   a {
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
   
   /* Button styles */
   button {
+    background-color: rgb(31, 31, 31);
+    color: rgb(230, 230, 230);
     background-color: #444;
     color: #fff;
   }
@@ -31,7 +33,7 @@ body {
   input[type="password"],
   textarea {
     background-color: #444;
-    color: #fff;
+    color: rgb(230, 230, 230);
   }
 
   .container_home a:hover,
