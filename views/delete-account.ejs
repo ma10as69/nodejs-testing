@@ -12,12 +12,21 @@
 <body>
   <h1>DELETE ACCOUNT</h1>
   <p>Confirm account deletion by entering your password:</p>
+
+
+<div class="container_delete-account_password">
   <form action="/delete" method="POST">
-    <input type="password" name="password" placeholder="Enter Password" required>
+    <input type="password" name="password" placeholder="Enter Password" id="password"
+required></div><br>
+
+<div class="container_delete-account_confirm_password">
+    <input type="password" placeholder="Confirm Password"
+id="confirm_password" required></div>
     <br>
     <div class="container_delete-account">
     <button type="submit">Delete Account</button>
   </form></div>
+
 
 
 

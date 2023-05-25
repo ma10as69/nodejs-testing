@@ -26,13 +26,29 @@ function clearStorage() {
 
 
 
-//login
+// login
 var loginButton = document.getElementById("loginButton");
 var linkElement = loginButton.querySelector("a");
 linkElement.textContent = "Login";
 
 
-//signup
+// signup
 var signupButton = document.getElementById("signupButton");
 var linkElement = signupButton.querySelector("a");
 linkElement.textContent = "Signup";
+
+
+// confirm password
+var password = document.getElementById("password")
+  , confirm_password = document.getElementById("confirm_password");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+}
