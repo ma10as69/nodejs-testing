@@ -39,6 +39,6 @@ linkElement.textContent = "Signup";
 
 
 // payment
-var signupButton = document.getElementById("paymentButton");
-var linkElement = signupButton.querySelector("a");
+var paymentButton = document.getElementById("paymentButton");
+var linkElement = paymentButton.querySelector("a");
 linkElement.textContent = "Payment";
