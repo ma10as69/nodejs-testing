@@ -38,15 +38,6 @@ body {
 }
 
 
-.container_delete-account_confirm_password {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  margin-top: 10px;
-}
-
-
 
 .container_gender {
     display: flex;
