@@ -131,9 +131,10 @@ app.post('/signup', (req, res) => {
    var iname = req.body.iname;
    var gender = req.body.gender;
    var age = req.body.age;
+   var date = req.body.date;
 
-   var sql = `INSERT INTO member (email, password, fname, iname, gender, age) VALUES (?, ?, ?, ?, ?, ?)`;
-   var values = [email, password, fname, iname, gender, age];
+   var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+   var values = [email, password, fname, iname, gender, age, date];
 
    con.query(sql, values, (err, result) => {
        if (err) {
