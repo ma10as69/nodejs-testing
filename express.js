@@ -257,6 +257,20 @@ app.get('/home', function (req, res) {
 
 
 
+app.get('/options', function (req, res) {
+
+  res.render('options.ejs', {     
+  });
+});
+
+
+app.get('/payment', function (req, res) {
+
+  res.render('payment.ejs', {     
+  });
+});
+
+
 // save session
 var session;
 app.get('/', function (req, res) {

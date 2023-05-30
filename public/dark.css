@@ -41,6 +41,7 @@ body {
   .container_delete a:hover,
   .container_buttons1 a:hover,
   .container_delete-account :hover,
+  .container_options :hover,
   #clear-storage:hover {
     color: #000000;
   }

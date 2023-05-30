@@ -9,39 +9,39 @@
   <title>Document</title>
 </head>
 <body>
- <h1>PAYMENT</h1><br><br>
-<form action="/payment" method="post">
-  <div class="input-field">
+
+  <div class="container_welcome">
+    <h1>Mathias Fitness</h1>
+  </div>
+
+  <h1>PAYMENT</h1><br><br>
+  <form action="/payment" method="post">
+    <div class="input-field">
       <input type="text" 
              name="card_number"
              id="card_number"
              placeholder="Enter Card Number">
-  </div> <br>
-  <div class="input-field">
+    </div> <br>
+    <div class="input-field">
       <input type="text"
-      name="cvc"
-      id="cvc"
-      placeholder="Enter CVC">
-  </div> <br>
+             name="cvc"
+             id="cvc"
+             placeholder="Enter CVC">
+    </div> <br>
  
+    <div class="container_buttons1">
+      <button><a href="/page1">Back</a></button>
+      <button id="paymentButton"><a>Confirm</a></button>
+    </form> <br>
 
-  <div class="container_buttons1">
-    <button><a href="/Signup">Back</a></button>
-    <button id="paymentButton"><a>pay</a></button>
-  </form> <br>
+    <div class="container_home">
+      <button><a href="/">Home</a></button>
+    </div>
 
-  <div class="container_home">
-    <button><a href="/home">Home</a></button></div>
+    <div class="container_options">
+      <button><a href="/options">Options</a></button>
+    </div>
 
-
-    <div class="container_themes_and_clear_storage">
-      <label for="switch-options">THEMES</label>
-      <select id="switch-options">
-        <option value="switch-options__light" data-stylesheet="light.css">Light</option>
-        <option value="switch-options__dark" data-stylesheet="dark.css">Dark</option>
-      </select>
-      <button id="clear-storage">Clear Storage</button></div>
-
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

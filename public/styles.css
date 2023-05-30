@@ -7,6 +7,20 @@ body {
     margin: 0;
   }
 
+  .container_welcome {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: fixed;
+    top: 10px;
+    margin-top: -15px;
+    top: 100;
+    border-bottom: 2px solid black;
+    
+  }
+  
+
+  
  div {
     display: flex;
     align-items: center;
@@ -28,6 +42,19 @@ body {
   align-self: center;
   margin-top: 10px;
 }
+
+
+
+.container_options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 10px;
+  left: 65px;
+  margin-top: 10px;
+}
+
 
 .container_delete-account_password {
   display: flex;
@@ -68,22 +95,19 @@ body {
   .container_logout {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    margin-top: 40px;
+    justify-content: center;
+    align-self: center;
+    margin-top: 10px;
   }
   
 
+
 .container_delete {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    margin-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 0px;
   }
 
 
