@@ -131,10 +131,11 @@ app.post('/signup', (req, res) => {
    var iname = req.body.iname;
    var gender = req.body.gender;
    var age = req.body.age;
-   var date = req.body.date;
+   var date = new Date();
+   var status = "active";
 
-   var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-   var values = [email, password, fname, iname, gender, age, date];
+   var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+   var values = [email, password, fname, iname, gender, age, date, status];
 
    con.query(sql, values, (err, result) => {
        if (err) {
@@ -232,6 +233,74 @@ app.get('/logout', function (req, res) {
  });
 
 
+// Get payment
+app.get('/payment', function (req, res) {
+res.render('payment.ejs', {     
+ });
+})
+
+
+// Post payment
+app.post('/payment', function (req, res) {
+
+  var con = connect();
+
+  // henter payment, status, card number og cvc fra skjema på login
+  var card_number = req.body.card_number;
+  var cvc = req.body.cvc;
+  //var payment = "active";
+  //var user_id = req.session.userid;
+
+   // perform the MySQL query to check if the user exists
+ 
+ 
+   var sql = 'SELECT * FROM card WHERE card_number = ? AND cvc = ?';
+
+  //var sql = `UPDATE member SET payment = ? WHERE member_id = ?`;
+
+
+
+
+
+  con.query(sql, [card_number, cvc], (error, results) => {
+      if (error) {
+          res.status(500).send('Internal Server Error');
+        } else if (results.length === 1) {
+          res.redirect('/continue_page2');
+      } else {
+        console.log("wrong card number/cvc")
+          res.redirect('/payment?error='); // redirect med error beskjed i GET
+      }
+  });
+});
+
+
+// Get continue page2
+app.get('/continue_page2', function (req, res) {
+  res.render('page2.ejs', {     
+   });
+  })
+
+
+// Post continue page2
+app.post('/continue_page2', function (req, res) {
+
+  var con = connect();
+
+  // setter payment og henter user_id fra skjema på login
+  var payment = "active";
+  var user_id = req.session.userid;
+
+   // perform the MySQL query to check if the user exists
+  var sql = `UPDATE member SET payment = ? WHERE member_id = ?`;
+
+
+  con.query(sql, [payment, user_id], (error, results) => {
+          res.redirect('/page2');
+  });
+});
+
+
 
 
 
@@ -257,16 +326,9 @@ app.get('/home', function (req, res) {
 
 
 
-app.get('/options', function (req, res) {
+app.get('/options', function (req, res) { 
 
   res.render('options.ejs', {     
-  });
-});
-
-
-app.get('/payment', function (req, res) {
-
-  res.render('payment.ejs', {     
   });
 });
 
@@ -274,11 +336,19 @@ app.get('/payment', function (req, res) {
 // save session
 var session;
 app.get('/', function (req, res) {
+
      session=req.session;
-     if(session.userid){ // hvis allerede logget inn
+     session.payment=req.body.payment;
+     if(session.payment){ // hvis payment er active
+      res.render('page2.ejs')
+     }
+
+     
+     else if(session.userid){ // hvis bare logget inn
         res.render('page1.ejs');
- 
      } 
+
+
      else {
         res.render('home.ejs', { });
      }
