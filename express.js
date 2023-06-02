@@ -41,164 +41,160 @@ app.set('view engine', 'ejs');
 
 // Get Login
 app.get('/login', function (req, res) {
-   res.render('login.ejs', {     
-   });
+  res.render('login.ejs', {     
+});
 })
 
 
 // Post login
 app.post('/login', function (req, res) {
 
-   var con = connect();
+  var con = connect();
 
-    // perform the MySQL query to check if the user exists
-   var sql = 'SELECT * FROM member WHERE email = ? AND password = ?';
+  // perform the MySQL query to check if the user exists
+  var sql = 'SELECT * FROM member WHERE email = ? AND password = ?';
    
-   // henter email og passord fra skjema på login
-   var email = req.body.email;
-   var password = req.body.password;
+  // henter email og passord fra skjema på login
+  var email = req.body.email;
+  var password = req.body.password;
 
 
-   con.query(sql, [email, password], (error, results) => {
-       if (error) {
-           res.status(500).send('Internal Server Error');
-       } else if (results.length === 1) {
-            session=req.session;
-           session.userid=req.body.email; // set session userid til email
-            res.redirect('/');
-       }
-       else {
-         console.log("wrong username/password")
-           res.redirect('/login?error=invalid'); // redirect med error beskjed i GET
-       }
-   });
+  con.query(sql, [email, password], (error, results) => {
+    if (error) {
+      res.status(500).send('Internal Server Error');
+  } else if (results.length === 1) {
+      session=req.session;
+      session.userid=req.body.email; // set session userid til email
+      res.redirect('/');
+  }
+    else {
+      console.log("wrong username/password")
+      res.redirect('/login?error=invalid'); // redirect med error beskjed i GET
+  }
+});
 });
 
 
 // Get signup
 app.get('/signup', function (req, res) {
-   res.render('signup.ejs', {     
-   });
-
+  res.render('signup.ejs', {     
+});
 })
 
 
 // Post signup
 app.post('/signup', (req, res) => {
 
-   var con = connect();
+  var con = connect();
    
-   var email = req.body.email;
-   var password = req.body.password;
-   var fname = req.body.fname;
-   var iname = req.body.iname;
-   var gender = req.body.gender;
-   var age = req.body.age;
-   var date = new Date();
-   var status = "active";
+  var email = req.body.email;
+  var password = req.body.password;
+  var fname = req.body.fname;
+  var iname = req.body.iname;
+  var gender = req.body.gender;
+  var age = req.body.age;
+  var date = new Date();
+  var status = "active";
 
-   var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-   var values = [email, password, fname, iname, gender, age, date, status];
+  var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  var values = [email, password, fname, iname, gender, age, date, status];
 
-   con.query(sql, values, (err, result) => {
-       if (err) {
-           throw err;
-       }
-       console.log('User inserted into database');
+  con.query(sql, values, (err, result) => {
+    if (err) {
+        throw err;
+    }
+    console.log('User inserted into database');
        
-       res.render('login.ejs');
-
-   });
-
+    res.render('login.ejs');
+});
 });
 
 
 // Get delete
 app.get('/delete', function (req, res) {
-   var con = connect();
+  var con = connect();
  
    // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
-   if (req.session.userid) {
-     var email = req.session.userid;
+  if (req.session.userid) {
+  var email = req.session.userid;
  
-     // Render a page with a form to enter the password
-     res.render('delete-account', { email: email });
-   } else {
-     res.redirect('/login'); // Redirect to the login page if the user is not signed in
-   }
- });
+  // Render a page with a form to enter the password
+  res.render('delete-account', { email: email });
+} else {
+  res.redirect('/login'); // Redirect to the login page if the user is not signed in
+}
+});
  
 
 // Post delete
  app.post('/delete', function (req, res) {
-   var con = connect();
+  var con = connect();
  
-   // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
-   if (req.session.userid) {
-     var email = req.session.userid;
-     var password = req.body.password; // Assuming the password is sent in the request body
+  // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
+  if (req.session.userid) {
+  var email = req.session.userid;
+  var password = req.body.password; // Assuming the password is sent in the request body
  
-     // Perform the MySQL query to fetch the user's password from the database
-     var selectSql = 'SELECT password FROM member WHERE email = ?';
+  // Perform the MySQL query to fetch the user's password from the database
+  var selectSql = 'SELECT password FROM member WHERE email = ?';
  
-     con.query(selectSql, [email], (error, results) => {
-       if (error) {
-         console.log(error);
-         res.status(500).send('Internal Server Error');
-       } else {
-         if (results.length > 0) {
-           var storedPassword = results[0].password; // Assuming the password is stored in the 'password' column
+  con.query(selectSql, [email], (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send('Internal Server Error');
+  } else {
+    if (results.length > 0) {
+    var storedPassword = results[0].password; // Assuming the password is stored in the 'password' column
  
-           // Compare the entered password with the stored password
-           if (password === storedPassword) {
-             // Perform the MySQL query to delete the user account
-             var deleteSql = 'DELETE FROM member WHERE email = ?';
+    // Compare the entered password with the stored password
+    if (password === storedPassword) {
+    // Perform the MySQL query to delete the user account
+    var deleteSql = 'DELETE FROM member WHERE email = ?';
  
-             con.query(deleteSql, [email], (error, results) => {
-               if (error) {
-                 console.log(error);
-                 res.status(500).send('Internal Server Error');
-               } else {
-                 // Account deletion successful
-                 req.session.destroy(function (error) {
-                   if (error) {
-                     console.log(error);
-                   }
-                   res.redirect('/home');
-                 });
-               }
-             });
-           } else {
-             // Incorrect password
-             res.status(403).send('Incorrect password');
-           }
-         } else {
-           // User not found
-           res.status(404).send('User not found');
-         }
-       }
-     });
-   } else {
-     res.redirect('/login'); // Redirect to the login page if the user is not signed in
-   }
- });
+    con.query(deleteSql, [email], (error, results) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+      } else {
+    // Account deletion successful
+        req.session.destroy(function (error) {
+        if (error) {
+        console.log(error);
+      } res.redirect('/home');
+});
+}
+});
+} else {
+  // Incorrect password
+  res.status(403).send('Incorrect password');
+}
+} else {
+  // User not found
+  res.status(404).send('User not found');
+}
+}
+});
+} else {
+  res.redirect('/login'); // Redirect to the login page if the user is not signed in
+}
+});
  
 
 // logout
 app.get('/logout', function (req, res) {
-   req.session.destroy(function (error) {
-     if (error) {
-       console.log(error);
-     }
-     res.redirect('/home');
-   });
- });
+  req.session.destroy(function (error) {
+    if (error) {
+      console.log(error);
+    }
+  res.redirect('/home');
+});
+});
 
 
 // Get payment
 app.get('/payment', function (req, res) {
-res.render('payment.ejs', {     
- });
+  res.render('payment.ejs', {     
+});
 })
 
 
@@ -210,19 +206,9 @@ app.post('/payment', function (req, res) {
   // henter payment, status, card number og cvc fra skjema på login
   var card_number = req.body.card_number;
   var cvc = req.body.cvc;
-  //var payment = "active";
-  //var member_id = req.session.userid;
 
-   // perform the MySQL query to check if the user exists
- 
- 
-   var sql = 'SELECT * FROM card WHERE card_number = ? AND cvc = ?';
-
-  //var sql = `UPDATE member SET payment = ? WHERE member_id = ?`;
-
-
-
-
+  // perform the MySQL query to check if the user exists
+  var sql = 'SELECT * FROM card WHERE card_number = ? AND cvc = ?';
 
   con.query(sql, [card_number, cvc], (error, results) => {
       if (error) {
@@ -233,7 +219,7 @@ app.post('/payment', function (req, res) {
         console.log("wrong card number/cvc")
           res.redirect('/payment?error='); // redirect med error beskjed i GET
       }
-  });
+});
 });
 
 
@@ -250,10 +236,9 @@ app.get('/continue_page2', function (req, res) {
    // perform the MySQL query to check if the user exists
   var sql = `UPDATE member SET payment = ? WHERE email = ?`;
 
-
   con.query(sql, [payment, member_id], (error, results) => {
           res.redirect('/page2');
-  });
+});
 });
 
 
@@ -266,44 +251,37 @@ app.get('/continue_page2', function (req, res) {
 
 
 app.get('/page1', function (req, res) {
-   res.render('page1.ejs', {     
-   });
-
+  res.render('page1.ejs', {     
+});
 })
 
 
 
 app.get('/page2', function (req, res) {
   res.render('page2.ejs', {     
-  });
-
+});
 })
 
 
 
 app.get('/home', function (req, res) {
-   res.render('home.ejs', {     
-   
-   });
-   
+  res.render('home.ejs', {     
+});
 })
 
 
 
 app.get('/options', function (req, res) { 
-
   res.render('options.ejs', {     
-  });
+});
 });
 
 
 
 app.get('/continue', function (req, res) {
-   req.session.destroy();
-   res.render('page1.ejs', {     
-
-   });
-
+  req.session.destroy();
+  res.render('page1.ejs', {     
+});
 })
 
 
