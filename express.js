@@ -191,9 +191,23 @@ app.get('/logout', function (req, res) {
 });
 
 
+
+
 // Get payment
 app.get('/payment', function (req, res) {
-  res.render('payment.ejs', {     
+
+  var con = connect();
+
+  // setter payment og henter member_id fra skjema på login
+  var payment = "active";
+  var member_id = req.session.userid
+  req.session.payment = payment
+
+   // perform the MySQL query to check if the user exists
+  var sql = `UPDATE payment SET payment = ? WHERE member_id = ?`;
+
+  con.query(sql, [payment, member_id], (error, results) => {
+          res.render('payment.ejs');
 });
 })
 
@@ -223,7 +237,7 @@ app.post('/payment', function (req, res) {
 });
 
 
-// Post continue page2
+// Get continue page2
 app.get('/continue_page2', function (req, res) {
 
   var con = connect();
@@ -276,13 +290,10 @@ app.get('/options', function (req, res) {
 });
 });
 
-
-
-app.get('/continue', function (req, res) {
-  req.session.destroy();
-  res.render('page1.ejs', {     
+app.get('/before_payment', function (req, res) { 
+  res.render('before_payment.ejs', {     
 });
-})
+});
 
 
 // save session
