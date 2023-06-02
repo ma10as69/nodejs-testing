@@ -104,7 +104,8 @@ app.post('/login', function (req, res) {
             session=req.session;
            session.userid=req.body.email; // set session userid til email
             res.redirect('/');
-       } else {
+       }
+       else {
          console.log("wrong username/password")
            res.redirect('/login?error=invalid'); // redirect med error beskjed i GET
        }
@@ -249,7 +250,7 @@ app.post('/payment', function (req, res) {
   var card_number = req.body.card_number;
   var cvc = req.body.cvc;
   //var payment = "active";
-  //var user_id = req.session.userid;
+  //var member_id = req.session.userid;
 
    // perform the MySQL query to check if the user exists
  
@@ -275,27 +276,21 @@ app.post('/payment', function (req, res) {
 });
 
 
-// Get continue page2
-app.get('/continue_page2', function (req, res) {
-  res.render('page2.ejs', {     
-   });
-  })
-
-
 // Post continue page2
-app.post('/continue_page2', function (req, res) {
+app.get('/continue_page2', function (req, res) {
 
   var con = connect();
 
-  // setter payment og henter user_id fra skjema på login
+  // setter payment og henter member_id fra skjema på login
   var payment = "active";
-  var user_id = req.session.userid;
+  var member_id = req.session.userid
+  req.session.payment = payment
 
    // perform the MySQL query to check if the user exists
-  var sql = `UPDATE member SET payment = ? WHERE member_id = ?`;
+  var sql = `UPDATE member SET payment = ? WHERE email = ?`;
 
 
-  con.query(sql, [payment, user_id], (error, results) => {
+  con.query(sql, [payment, member_id], (error, results) => {
           res.redirect('/page2');
   });
 });
@@ -306,6 +301,14 @@ app.post('/continue_page2', function (req, res) {
 
 
 
+
+
+
+app.get('/page2', function (req, res) {
+  res.render('page2.ejs', {     
+  });
+
+})
 
 
 
@@ -337,22 +340,32 @@ app.get('/options', function (req, res) {
 var session;
 app.get('/', function (req, res) {
 
-     session=req.session;
-     session.payment=req.body.payment;
-     if(session.payment){ // hvis payment er active
-      res.render('page2.ejs')
-     }
+var con = connect();
 
-     
-     else if(session.userid){ // hvis bare logget inn
-        res.render('page1.ejs');
-     } 
+var email = req.session.userid
 
+var selectSql = 'SELECT payment FROM member WHERE email = ?'
+  con.query(selectSql, [email], (error, results) => {
+  if (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  } else if (results.length === 1) {
+    req.session.payment = results[0].payment;
+    console.log (req.session.payment)
+  }
 
-     else {
-        res.render('home.ejs', { });
-     }
-})
+  if (req.session.payment === 'active' && req.session.userid) {
+    res.render('page2.ejs');
+  }    
+    else if(req.session.payment == null && req.session.userid){ // hvis bare logget inn
+    res.render('page1.ejs');
+    console.log ("render page1")
+  }   
+    else {
+    res.render('home.ejs', { });
+  }
+});
+});
 
 
 
