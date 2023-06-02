@@ -11,12 +11,11 @@ host:"mathias-mysql-server.mysql.database.azure.com",
 user:"mathias", password:"NoRussian123", database:"gym_management", port:3306,
 ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
 }
-
  // parsing the incoming data
  app.use(express.json());
  app.use(express.urlencoded({ extended: true }));
  app.use(cookieParser());
-  
+
  const oneDay = 1000 * 60 * 60 * 24; // calculate one day
   
  // express app should use sessions
@@ -26,48 +25,11 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
      cookie: { maxAge: oneDay },
      resave: false 
  }));
-
-
-
 // links
 app.use(express.static('public'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-app.get('/test', function (req, res) {//azure 
-var con=mysql.createConnection({host:"mathias-mysql-server.mysql.database.azure.com",
-user:"mathias", password:"NoRussian123", database:"gym_management", port:3306,
-ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
-
-   con.connect(function(err) {
-      if (err) throw err;
-      con.query("SELECT * FROM member", function (err, result, fields) {
-         if (err) throw err;
-         console.log(result);     
-         var data = result; 
-         var innhold = "burger";
-   
-         res.render('index.ejs', {
-            data: data,
-            innhold: innhold
-   
-       });
-      });
-   
-   });
- })
-
-
-
- app.get('/process_get', function (req, res) {
-    // Prepare output in JSON format
-    response = {
-       email:req.query.email,
-       password:req.query.password
-    };
-    console.log(response);
-    res.end(JSON.stringify(response));
- })
 
 
 
@@ -77,14 +39,14 @@ ssl:{ca:fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}});
 
 
 
-
+// Get Login
 app.get('/login', function (req, res) {
    res.render('login.ejs', {     
    });
 })
 
 
-// login
+// Post login
 app.post('/login', function (req, res) {
 
    var con = connect();
@@ -113,7 +75,7 @@ app.post('/login', function (req, res) {
 });
 
 
-
+// Get signup
 app.get('/signup', function (req, res) {
    res.render('signup.ejs', {     
    });
@@ -121,7 +83,7 @@ app.get('/signup', function (req, res) {
 })
 
 
-// signup
+// Post signup
 app.post('/signup', (req, res) => {
 
    var con = connect();
@@ -222,7 +184,6 @@ app.get('/delete', function (req, res) {
  });
  
 
-
 // logout
 app.get('/logout', function (req, res) {
    req.session.destroy(function (error) {
@@ -304,17 +265,17 @@ app.get('/continue_page2', function (req, res) {
 
 
 
-app.get('/page2', function (req, res) {
-  res.render('page2.ejs', {     
-  });
+app.get('/page1', function (req, res) {
+   res.render('page1.ejs', {     
+   });
 
 })
 
 
 
-app.get('/page1', function (req, res) {
-   res.render('page1.ejs', {     
-   });
+app.get('/page2', function (req, res) {
+  res.render('page2.ejs', {     
+  });
 
 })
 
@@ -336,6 +297,16 @@ app.get('/options', function (req, res) {
 });
 
 
+
+app.get('/continue', function (req, res) {
+   req.session.destroy();
+   res.render('page1.ejs', {     
+
+   });
+
+})
+
+
 // save session
 var session;
 app.get('/', function (req, res) {
@@ -351,7 +322,6 @@ var selectSql = 'SELECT payment FROM member WHERE email = ?'
     res.status(500).send('Internal Server Error');
   } else if (results.length === 1) {
     req.session.payment = results[0].payment;
-    console.log (req.session.payment)
   }
 
   if (req.session.payment === 'active' && req.session.userid) {
@@ -359,23 +329,12 @@ var selectSql = 'SELECT payment FROM member WHERE email = ?'
   }    
     else if(req.session.payment == null && req.session.userid){ // hvis bare logget inn
     res.render('page1.ejs');
-    console.log ("render page1")
   }   
     else {
     res.render('home.ejs', { });
   }
 });
 });
-
-
-
-app.get('/continue', function (req, res) {
-   req.session.destroy();
-   res.render('page1.ejs', {     
-
-   });
-
-})
 
 
 
