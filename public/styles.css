@@ -43,6 +43,14 @@ body {
   margin-top: 10px;
 }
 
+.container_cancel-subscription {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 10px;
+}
+
 
 
 .container_options {
@@ -57,6 +65,15 @@ body {
 
 
 .container_delete-account_password {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 10px;
+}
+
+
+.container_cancel-subscription_password {
   display: flex;
   align-items: center;
   justify-content: center;
