@@ -41,8 +41,12 @@ app.set('view engine', 'ejs');
 
 // Get Login
 app.get('/login', function (req, res) {
-  res.render('login.ejs', {     
-});
+  if (req.query.error) { console.log('req.query.error ', req.query.error) }
+  if (req.query.error === 'wronginfo') { 
+     message = 'Wrong username or password' 
+  } else {message = null}
+
+  res.render('login.ejs', { message: message });
 })
 
 
@@ -69,7 +73,9 @@ app.post('/login', function (req, res) {
   }
     else {
       console.log("wrong username/password")
-      res.redirect('/login?error=invalid'); // redirect med error beskjed i GET
+      res.redirect('/login?error=wronginfo'); // redirect med error beskjed i GET
+      res.render('login.ejs', { error: req.query.error });
+
   }
 });
 });
@@ -77,9 +83,14 @@ app.post('/login', function (req, res) {
 
 // Get signup
 app.get('/signup', function (req, res) {
-  res.render('signup.ejs', {     
-});
+  if (req.query.error) { console.log('req.query.error ', req.query.error) }
+  if (req.query.error === 'exists') { 
+     message = 'User already exists' 
+  } else {message = null}
+
+  res.render('signup.ejs', { message: message });
 })
+
 
 
 // Post signup
@@ -101,11 +112,16 @@ app.post('/signup', (req, res) => {
 
   con.query(sql, values, (err, result) => {
     if (err) {
-        throw err;
+    if (err.code === 'ER_DUP_ENTRY') {
+      res.render('signup.ejs', { error: 'Email already taken' });
+    } else {
+      throw err;
     }
-    console.log('User inserted into database');
-       
-    res.render('login.ejs');
+  }   else {
+      console.log('User inserted into database');
+      res.render('login.ejs');
+  }
+
 });
 });
 
