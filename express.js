@@ -230,7 +230,7 @@ app.post('/cancel', function (req, res) {
         req.session.destroy(function (error) {
         if (error) {
         console.log(error);
-      } res.redirect('/');
+      } res.redirect('/page1');
 });
 }
 });
