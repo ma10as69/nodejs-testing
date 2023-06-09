@@ -160,8 +160,15 @@ select {
     margin-top: 20px;
   }
 
-  #message {
+  #error {
     color: #ff0000;
+    align-self: center;
+    margin-top: 0px;
+    margin-left: 10px;
+  }
+
+  #message {
+    color: #ffffff;
     align-self: center;
     margin-top: 0px;
     margin-left: 10px;

@@ -43,8 +43,13 @@ app.set('view engine', 'ejs');
 app.get('/login', function (req, res) {
   if (req.query.error) { console.log('req.query.error ', req.query.error) }
   if (req.query.error === 'wrong') { 
-     message = 'Wrong username or password' 
-  } else {message = ""}
+     error = 'Wrong username or password',
+     message = null
+  } 
+  else if (req.query.message === 'created') { 
+     message = 'User created',
+     error = null
+  } else {message = "", error = ""}
 
   res.render('login.ejs', { message: message });
 })
@@ -87,6 +92,7 @@ app.get('/signup', function (req, res) {
      message = 'User already exists' 
   } else {message = ""}
 
+
   res.render('signup.ejs', { message: message });
 })
 
@@ -110,20 +116,20 @@ app.post('/signup', (req, res) => {
   var values = [email, password, fname, iname, gender, age, date, status];
   var sqlCheck = 'SELECT * FROM member WHERE email = ?';
 
-con.query(sqlCheck, [email], (error, result) => {
+  con.query(sqlCheck, [email], (error, result) => {
   if (error) {
      res.status(500).send('Internal Server Error');
   } else if (result.length != 0) {
     res.redirect('signup?error=exists');
   }
-else {
-con.query(sql, values, (err, result) => {
-  if (err) {
-      throw err;
-  }
-console.log('User inserted into database');
-res.render('login.ejs');
-      }) // 2nd query
+    else {
+    con.query(sql, values, (err, result) => {
+    if (err) {
+        throw err;
+    }
+    console.log('User inserted into database');
+    res.redirect('login?message=created');
+    }) // 2nd query
     } // else query
   }) // first query
 }) // post end
@@ -360,6 +366,9 @@ app.get('/page2', function (req, res) {
   res.render('page2.ejs', {     
 });
 })
+
+
+
 
 
 
