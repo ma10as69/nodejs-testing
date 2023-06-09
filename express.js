@@ -42,9 +42,9 @@ app.set('view engine', 'ejs');
 // Get Login
 app.get('/login', function (req, res) {
   if (req.query.error) { console.log('req.query.error ', req.query.error) }
-  if (req.query.error === 'wronginfo') { 
+  if (req.query.error === 'wrong') { 
      message = 'Wrong username or password' 
-  } else {message = null}
+  } else {message = ""}
 
   res.render('login.ejs', { message: message });
 })
@@ -73,8 +73,7 @@ app.post('/login', function (req, res) {
   }
     else {
       console.log("wrong username/password")
-      res.redirect('/login?error=wronginfo'); // redirect med error beskjed i GET
-      res.render('login.ejs', { error: req.query.error });
+      res.redirect('login?error=wrong');
 
   }
 });
@@ -86,7 +85,7 @@ app.get('/signup', function (req, res) {
   if (req.query.error) { console.log('req.query.error ', req.query.error) }
   if (req.query.error === 'exists') { 
      message = 'User already exists' 
-  } else {message = null}
+  } else {message = ""}
 
   res.render('signup.ejs', { message: message });
 })
@@ -109,21 +108,25 @@ app.post('/signup', (req, res) => {
 
   var sql = `INSERT INTO member (email, password, fname, iname, gender, age, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   var values = [email, password, fname, iname, gender, age, date, status];
+  var sqlCheck = 'SELECT * FROM member WHERE email = ?';
 
-  con.query(sql, values, (err, result) => {
-    if (err) {
-    if (err.code === 'ER_DUP_ENTRY') {
-      res.render('signup.ejs', { error: 'Email already taken' });
-    } else {
-      throw err;
-    }
-  }   else {
-      console.log('User inserted into database');
-      res.render('login.ejs');
+con.query(sqlCheck, [email], (error, result) => {
+  if (error) {
+     res.status(500).send('Internal Server Error');
+  } else if (result.length != 0) {
+    res.redirect('signup?error=exists');
   }
-
-});
-});
+else {
+con.query(sql, values, (err, result) => {
+  if (err) {
+      throw err;
+  }
+console.log('User inserted into database');
+res.render('login.ejs');
+      }) // 2nd query
+    } // else query
+  }) // first query
+}) // post end
 
 
 // Get delete
