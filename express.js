@@ -42,7 +42,7 @@ app.set('view engine', 'ejs');
 // Get Login
 app.get('/login', function (req, res) {
   if (req.query.error) { console.log('req.query.error ', req.query.error) }
-  if (req.query.error === 'wrong') { 
+  if (req.query.error === 'wrong_login') { 
      error = 'Wrong username or password',
      message = null
   } 
@@ -78,7 +78,7 @@ app.post('/login', function (req, res) {
   }
     else {
       console.log("wrong username/password")
-      res.redirect('login?error=wrong');
+      res.redirect('login?error=wrong_login');
 
   }
 });
@@ -138,7 +138,17 @@ app.post('/signup', (req, res) => {
 // Get delete
 app.get('/delete', function (req, res) {
   var con = connect();
- 
+
+  if (req.query.error) { console.log('req.query.error ', req.query.error) }
+  if (req.query.error === 'wrong_delete') { 
+     error = 'Wrong password'
+  }
+  else if (req.query.message === 'deleted') { 
+    message = 'User deleted',
+    error = null
+ } else {message = "", error = ""}
+
+
    // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
   if (req.session.userid) {
   var email = req.session.userid;
@@ -185,13 +195,12 @@ app.get('/delete', function (req, res) {
         req.session.destroy(function (error) {
         if (error) {
         console.log(error);
-      } res.redirect('/home');
+      } res.redirect('/?message=deleted');
 });
 }
 });
 } else {
-  // Incorrect password
-  res.status(403).send('Incorrect password');
+  res.redirect('delete?error=wrong_delete');
 }
 } else {
   // User not found
@@ -209,6 +218,16 @@ app.get('/delete', function (req, res) {
 app.get('/cancel', function (req, res) {
   var con = connect();
  
+  if (req.query.error) { console.log('req.query.error ', req.query.error) }
+  if (req.query.error === 'wrong_cancel') { 
+     error = 'Wrong password'
+  }
+  else if (req.query.message === 'canceled') { 
+    message = 'Subscription canceled',
+    error = null
+ } else {message = "", error = ""}
+
+
    // Check if the user is signed in by verifying the session or any authentication mechanism you have in place
   if (req.session.userid) {
   var email = req.session.userid;
@@ -255,13 +274,13 @@ app.post('/cancel', function (req, res) {
         req.session.destroy(function (error) {
         if (error) {
         console.log(error);
-      } res.redirect('/page1');
+      } res.redirect('/page1?message=canceled');
 });
 }
 });
 } else {
   // Incorrect password
-  res.status(403).send('Incorrect password');
+  res.redirect('cancel?error=wrong_cancel');
 }
 } else {
   // User not found
@@ -395,6 +414,16 @@ var session;
 app.get('/', function (req, res) {
 
 var con = connect();
+
+if (req.query.error) { console.log('req.query.error ', req.query.error) }
+if (req.query.error === 'wrong_delete') { 
+   error = 'Wrong password'
+}
+else if (req.query.message === 'deleted') { 
+  message = 'User deleted',
+  error = null
+} else {message = "", error = ""}
+
 
 var email = req.session.userid
 
