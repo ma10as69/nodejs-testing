@@ -322,7 +322,7 @@ app.get('/payment', function (req, res) {
 })
 
 
-// Post payment
+// Post payments
 app.post('/payment', function (req, res) {
 
   var con = connect();
