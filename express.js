@@ -353,37 +353,45 @@ app.post('/payment', function (req, res) {
 
 
 
-app.get('/test', function (req, res) {
 
-  res.render ('test.ejs')
+
+
+app.get('/update_account', function (req, res) {
+
+  res.render ('update-account.ejs')
 });
 
 
 
-app.post('/test', function (req, res) {
 
+app.post('/update_account', function (req, res) {
+  
   var con = connect();
 
-  var test = req.body.test;
+  var email = req.body.email;
+  var password = req.body.password;
+  var fname = req.body.fname;
+  var iname = req.body.iname;
+  var gender = req.body.gender;
+  var age = req.body.age;
   var member_id = req.session.userid;
-  console.log (test);
-  console.log (member_id);
 
-  var sql = 'UPDATE member SET test = ? WHERE email = ?';
-  con.query(sql, [test, member_id], (err, results) => {
+
+  var sql = 'UPDATE member SET email = ?, password = ?, fname = ?, iname = ?, gender = ?, age = ? WHERE email = ?'; 
+  var values = [email, password, fname, iname, gender, age, member_id];
+  var sqlCheck = 'SELECT * FROM member WHERE email = ?';
+
+  con.query(sql,[email, password, fname, iname, gender, age, member_id], function (err, results, rows, fields) {
     if (err) {
-      throw err;
-  }
-console.log("update done", results)
-      res.render('test.ejs');
+       throw err;
+     }
+      console.log("update done", results)
+      res.render('update-account.ejs');|
   });
 });
 
-
-
-
-
-
+//con.query(sql, [values], (err, results) => {
+ // 
 
 
 

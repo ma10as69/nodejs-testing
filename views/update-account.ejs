@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link id="active-stylesheet" href="" rel="stylesheet" type="text/css"/>
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="container_welcome">
+    <h1>Mathias Fitness</h1>
+  </div>
+
+ <h1>UPDATE ACCOUNT</h1>
+<form action="/update_account" method="post">
+  <div class="input-field">
+      <input type="email" 
+             name="email"
+             id="email"
+             placeholder="Enter Email">
+  </div> <br>
+  <div class="input-field">
+    <input type="text" 
+           name="fname"
+           id="fname"
+           placeholder="Enter Name">
+</div> <br>
+<div class="input-field">
+    <input type="text" 
+           name="iname"
+           id="iname"
+           placeholder="Enter Last Name">
+</div> <br>
+  <div class="input-field">
+      <input type="password"
+      name="password"
+      id="password"
+      placeholder="Enter Password">
+</div> <br>
+  <div class="input-field">
+    <input type="number" 
+      name="age"
+      id="age"
+      placeholder="Enter Age">
+    </div> <br>
+
+   <div class="container_gender">
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender">
+
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select></div><br>
+
+<div class="container_buttons1">
+<button id="updateButton"><a>Update</a></button>
+<button><a href="/home">Back</a></button></div>
+</form>
+
+
+
+<div class="container_home">
+  <button><a href="/home">Home</a></button></div><br>
+
+<h3 id="message"><%= message %></h3>
+
+
+<script src="script.js"></script>
+</body>
+</html>

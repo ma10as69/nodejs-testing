@@ -54,18 +54,23 @@ function applyTheme(theme) {
 // login
 var loginButton = document.getElementById("loginButton");
 var linkElement = loginButton.querySelector("a");
-linkElement.textContent = "Login";
+linkElement.textContent = "login";
 
 
 // signup
 var signupButton = document.getElementById("signupButton");
 var linkElement = signupButton.querySelector("a");
-linkElement.textContent = "Signup";
+linkElement.textContent = "signup";
 
 
 // payment
 var paymentButton = document.getElementById("paymentButton");
 var linkElement = paymentButton.querySelector("a");
-linkElement.textContent = "Payment";
+linkElement.textContent = "payment";
+
+// update
+var paymentButton = document.getElementById("updateButton");
+var linkElement = paymentButton.querySelector("a");
+linkElement.textContent = "update_account";
 
 
