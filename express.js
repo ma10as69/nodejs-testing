@@ -347,6 +347,47 @@ app.post('/payment', function (req, res) {
 });
 
 
+
+
+
+
+
+
+app.get('/test', function (req, res) {
+
+  res.render ('test.ejs')
+});
+
+
+
+app.post('/test', function (req, res) {
+
+  var con = connect();
+
+  var test = req.body.test;
+  var member_id = req.session.userid;
+  console.log (test);
+  console.log (member_id);
+
+  var sql = 'UPDATE member SET test = ? WHERE email = ?';
+  con.query(sql, [test, member_id], (err, results) => {
+    if (err) {
+      throw err;
+  }
+console.log("update done", results)
+      res.render('test.ejs');
+  });
+});
+
+
+
+
+
+
+
+
+
+
 // Get continue page2
 app.get('/continue_page2', function (req, res) {
 
