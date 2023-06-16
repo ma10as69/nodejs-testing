@@ -386,7 +386,7 @@ app.post('/update_account', function (req, res) {
        throw err;
      }
       console.log("update done", results)
-      res.render('update-account.ejs');|
+      res.render('update-account.ejs');
   });
 });
 
